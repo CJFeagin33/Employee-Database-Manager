@@ -1,6 +1,6 @@
 // required packages
 const inquirer = require('inquirer');
-const {viewAllRoles} = require('./queries/roles.js');
+const {viewAllRoles, addRole} = require('./queries/roles.js');
 const {viewAllDepartments, addDepartment} = require('./queries/departments.js')
 const {viewAllEmployees} = require('./queries/employee.js')
 
@@ -29,7 +29,24 @@ inquirer
                     }
                 ]).then(data => {addDepartment(data.newDepartment)});
         } else if (data.initialChoice === 'Add a Role') {
-            addRole();
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        message: 'What is the name of the new Role you would like to add?',
+                        name: 'newRoleTitle'
+                    },
+                    {
+                        type: 'input',
+                        message: 'What is the Salary associated with the new role?',
+                        name: 'newRoleSalary'
+                    },
+                    {
+                        type: 'input',
+                        message: 'What is the Department ID that this role belongs to?',
+                        name: 'newRoleDepartmentID'
+                    }
+                ]).then(data => {addRole(data.newRoleTitle, data.newRoleSalary, data.newRoleDepartmentID)});
         } else if (data.initialChoice === 'Add an Employee') {
             addEmployee();
         } else if (data.initialChoice === "Update and Employee's Role") {

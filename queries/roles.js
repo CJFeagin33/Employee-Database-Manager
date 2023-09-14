@@ -7,4 +7,12 @@ async function viewAllRoles() {
     })
 }
 
-module.exports = {viewAllRoles}
+async function addRole(newRoleTitle, newRoleSalary, newRoleDepartmentID) {
+    const sql = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
+    const params = [newRoleTitle, newRoleSalary, newRoleDepartmentID]
+    db.query(sql, params, () => {
+        viewAllRoles();
+    })
+};
+
+module.exports = {viewAllRoles, addRole}
