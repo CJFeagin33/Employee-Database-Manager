@@ -2,7 +2,7 @@
 const inquirer = require('inquirer');
 const {viewAllRoles, addRole} = require('./queries/roles.js');
 const {viewAllDepartments, addDepartment} = require('./queries/departments.js')
-const {viewAllEmployees} = require('./queries/employee.js')
+const {viewAllEmployees, addEmployee, updateEmployee} = require('./queries/employee.js')
 
 inquirer
     .prompt([
@@ -48,9 +48,43 @@ inquirer
                     }
                 ]).then(data => {addRole(data.newRoleTitle, data.newRoleSalary, data.newRoleDepartmentID)});
         } else if (data.initialChoice === 'Add an Employee') {
-            addEmployee();
-        } else if (data.initialChoice === "Update and Employee's Role") {
-            updateEmployeeRole();
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        message: 'What is the First Name of the new Employee?',
+                        name: 'newEmployeeFirstName'
+                    },
+                    {
+                        type: 'input',
+                        message: 'What is the Last Name of the new Employee?',
+                        name: 'newEmployeeLastName'
+                    },
+                    {
+                        type: 'input',
+                        message: 'What is the RoleID associated with this new Employee?',
+                        name: 'newEmployeeRoleID'
+                    },
+                    {
+                        type: 'input',
+                        message: 'What is the ManagerID of the Manager the new Employee reports to?',
+                        name: 'newEmployeeManagerID'
+                    }
+                ]).then(data => {addEmployee(data.newEmployeeFirstName, data.newEmployeeLastName, data.newEmployeeRoleID, data.newEmployeeManagerID)});
+        } else if (data.initialChoice === "Update an Employee's Role") {
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        message: 'What is the EmployeeID of the Employee whose role you would like to update?',
+                        name: 'updatedEmployeeID'
+                    },
+                    {
+                        type: 'input',
+                        message: 'What is the new RoleID you would like to assign to the employee?',
+                        name: 'updatedEmployeeRoleID'
+                    },
+                ]).then(data => {updateEmployee(data.updatedEmployeeID, data.updatedEmployeeRoleID)});
         }
     });
 
